@@ -18,7 +18,7 @@ import numpy    # Used for statistics
 from deap import algorithms
 from deap import base
 from deap import tools
-
+from levenschtein import ld as levenshtein_distance
 
 # -----------------------------------------------------------------------------
 #  Global variables
@@ -92,8 +92,6 @@ class Message(list):
 # Genetic operators
 # -----------------------------------------------------------------------------
 
-# TODO: Implement levenshtein_distance function (see Day 9 in-class exercises)
-# HINT: Now would be a great time to implement memoization if you haven't
 
 def evaluate_text(message, goal_text, verbose=VERBOSE):
     """
@@ -118,16 +116,27 @@ def mutate_text(message, prob_ins=0.05, prob_del=0.05, prob_sub=0.05):
         Deletion:       Delete one of the characters from the Message
         Substitution:   Replace one character of the Message with a random
                         (legal) character
+
+    >>> mutate_text('hello', 1, 1, 1)
     """
 
     if random.random() < prob_ins:
-        # TODO: Implement insertion-type mutation
-        pass
+        mes = list(message)
+        index = random.randint(0, len(mes) - 1)
+        mes.insert(index, random.choice(VALID_CHARS))
+        message = ''.join(mes)
 
-    # TODO: Also implement deletion and substitution mutations
-    # HINT: Message objects inherit from list, so they also inherit
-    #       useful list methods
-    # HINT: You probably want to use the VALID_CHARS global variable
+    if random.random() < prob_del:
+        mes = list(message)
+        index = random.randint(0, len(mes) - 1)
+        mes.pop(index)
+        message = ''.join(mes)
+
+    if random.random() < prob_sub:
+        mes = list(message)
+        index = random.randint(0, len(mes) - 1)
+        mes[index] = random.choice(VALID_CHARS)
+        message = ''.join(mes)
 
     return (message, )   # Length 1 tuple, required by DEAP
 
@@ -195,6 +204,9 @@ def evolve_string(text):
 # Run if called from the command line
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
+
+    """    import doctest
+    doctest.testmod()"""
 
     # Get goal message from command line (optional)
     import sys
