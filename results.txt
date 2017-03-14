@@ -1,0 +1,29 @@
+This toolbox didn't work.
+
+I wouldnt submit it, but I feel that I got a pretty good understanding for how
+it should be working, and did a fair amount of work around trying to get it to
+work. The issues I found were primarily that
+a) the text didnt converge properly
+  BECAUSE vv
+b) the library errored after a single generation:
+  ERROR:
+
+  Traceback (most recent call last):
+  File "evolve_text.py", line 229, in <module>
+    pop, log = evolve_string(goal)
+  File "evolve_text.py", line 198, in evolve_string
+    stats=stats)
+  File "/usr/local/lib/python3.5/dist-packages/deap/algorithms.py", line 165, in eaSimple
+    offspring = varAnd(offspring, toolbox, cxpb, mutpb)
+  File "/usr/local/lib/python3.5/dist-packages/deap/algorithms.py", line 78, in varAnd
+    del offspring[i].fitness.values
+AttributeError: 'str' object has no attribute 'fitness'
+
+c) this seemed to be a library-side error, and thus no issue of mine.
+
+If I need to do another toolbox let me know, but for now I am satisfied that I
+learned a fair amount doing this one.
+
+Also let me know before the redone one would be substantialy late
+
+thanks!
